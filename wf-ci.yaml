@@ -1,0 +1,27 @@
+# This is a basic workflow to help you get started with Actions
+name: CI
+# Controls when the action will run. Triggers the workflow on push or pull request # events but only for the master branch
+on:
+push:
+branches: [ master ]
+pull_request: branches: [ master ]
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+# This workflow containstwo jobs called "masterbuild" and "runnerbuild"
+masterbuild:
+runs-on: master-runner
+steps:
+- name: Deploying runner pod
+run: |
+echo "Removing previous run"
+kubectl delete -f /home/ec2-user/actions-runner/job-runner.yaml echo "Deployment started"
+kubectl apply -f /home/ec2-user/actions-runner/job-runner.yaml
+runnerbuild:
+# The type of runner that the job will run on
+runs-on: Pod-runner
+# Steps represent a sequence of tasks that will be executed as part of the job
+steps:
+# Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+- uses: actions/checkout@v2
+- name: Runner job run:
+echo "the job is running for 20 sec" sleep 20

@@ -1,0 +1,13 @@
+apiVersion: batch/v1 kind: Job
+metadata:
+name: pod-runner spec:
+template:
+spec:
+containers:
+- name: pod-runner
+image: 353770167627.dkr.ecr.us-east-1.amazonaws.com/arm-runner:latest volumeMounts:
+- mountPath: /var/run/docker.sock name: docker-sock securityContext:
+privileged: true
+restartPolicy: Never volumes:
+- name: docker-sock hostPath:
+path: /var/run/docker.sock
